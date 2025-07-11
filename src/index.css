@@ -5,3 +5,18 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+@theme {
+  --color-purple: #a729f5;
+  --color-navy: #313e51;
+  --color-light-navy: #3b4d66;
+  --color-gray: #626c7f;
+  --color-light-bluish: #abc1e1;
+  --color-pure-white: #f4f6fa;
+  --color-white: #ffffff;
+  --color-green: #26d782;
+  --color-icon-green: #2fd887;
+  --color-red: #ee5454;
+  --color-icon-orange: #ff7e35;
+  --color-blue: #306aff;
+}
