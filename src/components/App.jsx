@@ -1,3 +1,4 @@
+// imported hooks
 import { useReducer } from "react";
 
 // imported components
@@ -12,11 +13,6 @@ import lightPatternDesktop from "../assets/images/pattern-background-desktop-lig
 import darkPatternDesktop from "../assets/images/pattern-background-desktop-dark.svg";
 
 // imported icon images
-import moonIconLight from "../assets/images/icon-moon-light.svg";
-import moonIconDark from "../assets/images/icon-moon-dark.svg";
-import sunIconLight from "../assets/images/icon-sun-light.svg";
-import sunIconDark from "../assets/images/icon-sun-dark.svg";
-
 import correctIcon from "../assets/images/icon-correct.svg";
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
 import htmlIcon from "../assets/images/icon-html.svg";
@@ -25,24 +21,44 @@ import jsIcon from "../assets/images/icon-js.svg";
 import accessibilityIcon from "../assets/images/icon-accessibility.svg";
 
 const initialState = {
-  status: "",
+  status: "ready",
   theme: "light",
-  quizzes: [],
-  selectedQuiz: [],
+  selectedQuizTitle: "",
+  quizQuestions: [],
 };
 
 function reducer(state, action) {
-  return console.log(state);
+  console.log(state);
+
+  switch (action.type) {
+    case "switchTheme":
+      return {
+        ...state,
+        theme:
+          state.theme === "light"
+            ? "dark"
+            : state.theme === "dark"
+            ? "light"
+            : "",
+      };
+
+    default:
+      throw new Error("Unknown action");
+  }
 }
 
 export default function App() {
-  const [{ status, theme, quizzes, selectedQuiz }, dispatch] = useReducer(
-    useReducer,
+  const [{ status, theme, quizzes, selectedQuizTitle }, dispatch] = useReducer(
+    reducer,
     initialState
   );
   return (
-    <section className={`w-svh h-full bg-light-bluish`}>
-      <Header />
+    <section
+      className={`w-svw h-svh ${
+        theme === "light" ? "bg-white" : theme === "dark" ? "bg-light-navy" : ""
+      }  `}
+    >
+      <Header dispatch={dispatch} theme={theme} />
     </section>
   );
 }
