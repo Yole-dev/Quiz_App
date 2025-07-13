@@ -16,4 +16,43 @@
   --color-icon-green: #2fd887;
   --color-icon-orange: #ff7e35;
   --color-blue: #306aff;
+
+  --color-light-purple: #f6e7ff;
+  --color-light-blue: #ebf0ff;
+  --color-light-green: #e0fdef;
+  --color-light-orange: #fff1e9;
+
+  /* custom font */
+  --font-display: "Rubik", "sans-serif";
+}
+
+/* Rubik Regular */
+@font-face {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("/fonts/static/Rubik-Regular.ttf") format("truetype");
+}
+
+/* Rubik Medium */
+@font-face {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/static/Rubik-Medium.ttf") format("truetype");
+}
+
+/* Rubik Italic */
+@font-face {
+  font-family: Rubik;
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("/fonts/static/Rubik-Italic.ttf") format("truetype");
+}
+
+body {
+  font-family: "Rubik";
 }
