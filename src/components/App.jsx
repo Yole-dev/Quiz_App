@@ -50,6 +50,7 @@ function reducer(state, action) {
     case "selectedQuiz":
       return {
         ...state,
+        selectedQuizTitle: action.payload,
       };
 
     default:
@@ -93,10 +94,16 @@ export default function App() {
           : ""
       } font-rubik `}
     >
-      <Header dispatch={dispatch} theme={theme} />
+      <Header
+        dispatch={dispatch}
+        theme={theme}
+        selectedQuizTitle={selectedQuizTitle}
+      />
 
       <Main>
-        <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
+        {status === "ready" && (
+          <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
+        )}
       </Main>
     </section>
   );

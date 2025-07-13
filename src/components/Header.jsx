@@ -4,10 +4,50 @@ import moonIconDark from "../assets/images/icon-moon-dark.svg";
 import sunIconLight from "../assets/images/icon-sun-light.svg";
 import sunIconDark from "../assets/images/icon-sun-dark.svg";
 
-export default function Header({ dispatch, theme }) {
+import htmlIcon from "../assets/images/icon-html.svg";
+import cssIcon from "../assets/images/icon-css.svg";
+import jsIcon from "../assets/images/icon-js.svg";
+import accessibilityIcon from "../assets/images/icon-accessibility.svg";
+
+export default function Header({ dispatch, theme, selectedQuizTitle }) {
   return (
     <header className="w-full flex items-center justify-between px-[0.7rem] py-[2rem]">
-      <div></div>
+      <div className="flex items-center gap-[0.8rem] font-[400] text-[18px] ">
+        {selectedQuizTitle !== "" && (
+          <>
+            <div
+              className={`w-[40px] h-[40px] flex items-center justify-center rounded-[0.5rem] ${
+                selectedQuizTitle === "HTML"
+                  ? "bg-light-orange"
+                  : selectedQuizTitle === "CSS"
+                  ? "bg-light-green"
+                  : selectedQuizTitle === "JavaScript"
+                  ? "bg-light-blue"
+                  : selectedQuizTitle === "Accessibility"
+                  ? "bg-light-purple"
+                  : ""
+              }  md:w-[56px] md:h-[56px] `}
+            >
+              <img
+                src={`${
+                  selectedQuizTitle === "HTML"
+                    ? htmlIcon
+                    : selectedQuizTitle === "CSS"
+                    ? cssIcon
+                    : selectedQuizTitle === "JavaScript"
+                    ? jsIcon
+                    : selectedQuizTitle === "Accessibility"
+                    ? accessibilityIcon
+                    : ""
+                }`}
+                alt={`${selectedQuizTitle} icon`}
+                className=" w-[28.57px] h-[28.57px]  md:w-[32.5px] md:h-[25px] "
+              />
+            </div>
+            {selectedQuizTitle}
+          </>
+        )}
+      </div>
 
       <div className="w-[128px] h-[28px] flex items-center gap-[1rem] ">
         <img

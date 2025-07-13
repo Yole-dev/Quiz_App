@@ -50,7 +50,9 @@ export default function StartScreen({ dispatch, theme, quizzes }) {
                 : ""
             } px-[0.7rem] shadow-2xl/30 shadow-gray-navy/60 cursor-pointer rounded-[12px] `}
             key={quiz.id}
-            onClick={() => dispatch({ type: "selectedQuiz" })}
+            onClick={() =>
+              dispatch({ type: "selectedQuiz", payload: quiz.title })
+            }
           >
             <div
               className={`w-[40px] h-[40px] flex items-center justify-center rounded-[0.5rem] ${quiz.iconColor} md:w-[56px] md:h-[56px] `}
