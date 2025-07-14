@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Questions({
   theme,
@@ -13,32 +13,45 @@ export default function Questions({
     dispatch({ type: "settingActiveQuizData", payload: quizData.questions });
   }, [quizzes, selectedQuizTitle, dispatch]);
 
-  console.log(activeQuizData);
+  const questionIndex = currentQuestionIndex + 1;
 
   return (
     <div className="w-full flex flex-col items-center gap-[1rem] px-[1rem]">
-      <p
-        className={`w-full font-[200] text-left text-[14px] italic ${
-          theme === "light"
-            ? "text-gray-navy"
-            : theme === "dark"
-            ? "text-light-bluish"
-            : ""
-        } `}
-      >
-        Question {currentQuestionIndex + 1} of {activeQuizData.length}
-      </p>
+      <Pagination
+        theme={theme}
+        questionIndex={questionIndex}
+        activeQuizData={activeQuizData}
+      />
+
       <Question
         activeQuizData={activeQuizData}
         currentQuestionIndex={currentQuestionIndex}
       />
+
       <Options
         activeQuizData={activeQuizData}
         theme={theme}
         currentQuestionIndex={currentQuestionIndex}
       />
-      <SubmitButton dispatch={dispatch} />
+
+      <Button questionIndex={questionIndex} dispatch={dispatch} />
     </div>
+  );
+}
+
+function Pagination({ theme, questionIndex, activeQuizData }) {
+  return (
+    <p
+      className={`w-full font-[200] text-left text-[14px] italic ${
+        theme === "light"
+          ? "text-gray-navy"
+          : theme === "dark"
+          ? "text-light-bluish"
+          : ""
+      } `}
+    >
+      Question {questionIndex} of {activeQuizData.length}
+    </p>
   );
 }
 
@@ -84,13 +97,13 @@ function Options({ activeQuizData, currentQuestionIndex, theme }) {
   );
 }
 
-function SubmitButton({ dispatch }) {
+function Button({ dispatch, questionIndex }) {
   return (
     <button
-      className="w-full h-[64px] cursor-pointer "
+      className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[1rem] cursor-pointer "
       onClick={() => dispatch({ type: "setCurrentQuestionIndex", payload: 1 })}
     >
-      Submit Answer
+      {questionIndex > 9 ? "submit answer" : "next question"}
     </button>
   );
 }

@@ -6,6 +6,7 @@ import Header from "./Header";
 import Main from "./Main";
 import StartScreen from "./StartScreen";
 import Questions from "./Questions";
+import Loader from "./Loader";
 
 // imported background images
 import lightPatternMobile from "../assets/images/pattern-background-mobile-light.svg";
@@ -20,7 +21,7 @@ import correctIcon from "../assets/images/icon-correct.svg";
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
 
 const initialState = {
-  status: "ready",
+  status: "loading",
   theme: "light",
   selectedQuizTitle: "",
   currentQuestionIndex: 0,
@@ -35,6 +36,7 @@ function reducer(state, action) {
     case "quizDataReceived":
       return {
         ...state,
+        status: "ready",
         quizzes: action.payload,
       };
 
@@ -125,6 +127,8 @@ export default function App() {
       />
 
       <Main>
+        {status === "loading" && <Loader />}
+
         {status === "ready" && (
           <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
         )}
