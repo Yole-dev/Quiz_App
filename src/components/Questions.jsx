@@ -16,7 +16,7 @@ export default function Questions({
 
     setTimeout(() => {
       dispatch({ type: "questionsReady" });
-    }, 3000);
+    }, 2000);
   }, [quizzes, selectedQuizTitle, dispatch]);
 
   const questionIndex = currentQuestionIndex + 1;
@@ -28,7 +28,7 @@ export default function Questions({
       )}
 
       {questionStatus === "questionsSorted" && (
-        <div className="w-full flex flex-col items-center gap-[1rem] px-[1rem]">
+        <div className="w-full flex flex-col items-center gap-[1.7rem] px-[1rem]">
           <Pagination
             theme={theme}
             questionIndex={questionIndex}
@@ -38,6 +38,11 @@ export default function Questions({
           <Question
             activeQuizData={activeQuizData}
             currentQuestionIndex={currentQuestionIndex}
+          />
+
+          <Progress
+            activeQuizData={activeQuizData}
+            questionIndex={questionIndex}
           />
 
           <Options
@@ -66,6 +71,19 @@ function Pagination({ theme, questionIndex, activeQuizData }) {
     >
       Question {questionIndex} of {activeQuizData.length}
     </p>
+  );
+}
+
+function Progress({ activeQuizData, questionIndex }) {
+  return (
+    <div className="w-full flex justify-center">
+      <progress
+        min={1}
+        max={activeQuizData.length}
+        value={questionIndex}
+        className="w-full shadow-lg shadow-light-navy/50 "
+      />
+    </div>
   );
 }
 
