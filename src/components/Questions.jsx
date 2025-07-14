@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Questions({
   theme,
   dispatch,
+  currentQuestionIndex,
   quizzes,
   selectedQuizTitle,
   activeQuizData,
@@ -25,23 +26,31 @@ export default function Questions({
             : ""
         } `}
       >
-        Question X of {activeQuizData.length}
+        Question {currentQuestionIndex + 1} of {activeQuizData.length}
       </p>
-      <Question activeQuizData={activeQuizData} />
-      <Options activeQuizData={activeQuizData} theme={theme} />
+      <Question
+        activeQuizData={activeQuizData}
+        currentQuestionIndex={currentQuestionIndex}
+      />
+      <Options
+        activeQuizData={activeQuizData}
+        theme={theme}
+        currentQuestionIndex={currentQuestionIndex}
+      />
+      <SubmitButton dispatch={dispatch} />
     </div>
   );
 }
 
-function Question({ activeQuizData }) {
+function Question({ activeQuizData, currentQuestionIndex }) {
   return (
-    <p className="font-[500] text-left text-[20px] leading-[120%]">
-      {activeQuizData.map((questions) => questions.question)}
+    <p className=" w-full font-[500] text-left text-[20px] leading-[120%]">
+      {activeQuizData[currentQuestionIndex]?.question}
     </p>
   );
 }
 
-function Options({ activeQuizData, theme }) {
+function Options({ activeQuizData, currentQuestionIndex, theme }) {
   const alphabets = [
     { id: 0, letter: "a" },
     { id: 1, letter: "b" },
@@ -51,7 +60,7 @@ function Options({ activeQuizData, theme }) {
 
   return (
     <div className="w-full flex flex-col items-center gap-[1rem] ">
-      {activeQuizData[0].options.map((option, i) => (
+      {activeQuizData[currentQuestionIndex]?.options.map((option, i) => (
         <button
           key={i}
           className={` w-[327px] h-[64px] flex items-center gap-[0.8rem] p-[12px] rounded-[12px] ${
@@ -72,5 +81,16 @@ function Options({ activeQuizData, theme }) {
         </button>
       ))}
     </div>
+  );
+}
+
+function SubmitButton({ dispatch }) {
+  return (
+    <button
+      className="w-full h-[64px] cursor-pointer "
+      onClick={() => dispatch({ type: "setCurrentQuestionIndex", payload: 1 })}
+    >
+      Submit Answer
+    </button>
   );
 }

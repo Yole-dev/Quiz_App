@@ -5,6 +5,7 @@ import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import StartScreen from "./StartScreen";
+import Questions from "./Questions";
 
 // imported background images
 import lightPatternMobile from "../assets/images/pattern-background-mobile-light.svg";
@@ -17,12 +18,12 @@ import darkPatternDesktop from "../assets/images/pattern-background-desktop-dark
 // imported icon images
 import correctIcon from "../assets/images/icon-correct.svg";
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
-import Questions from "./Questions";
 
 const initialState = {
   status: "ready",
   theme: "light",
   selectedQuizTitle: "",
+  currentQuestionIndex: 0,
   quizzes: [],
   activeQuizData: [],
 };
@@ -52,13 +53,21 @@ function reducer(state, action) {
       return {
         ...state,
         selectedQuizTitle: action.payload,
-        status: `${action.payload}QuizActive`,
+        status: `quizActive`,
       };
 
     case "settingActiveQuizData":
       return {
         ...state,
         activeQuizData: [...action.payload],
+      };
+
+    case "setCurrentQuestionIndex":
+      if (state.currentQuestionIndex > 9) return;
+
+      return {
+        ...state,
+        currentQuestionIndex: state.currentQuestionIndex + action.payload,
       };
 
     default:
@@ -68,7 +77,14 @@ function reducer(state, action) {
 
 export default function App() {
   const [
-    { status, theme, quizzes, selectedQuizTitle, activeQuizData },
+    {
+      status,
+      theme,
+      currentQuestionIndex,
+      quizzes,
+      selectedQuizTitle,
+      activeQuizData,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -113,10 +129,11 @@ export default function App() {
           <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
         )}
 
-        {status === "HTMLQuizActive" && (
+        {status === "quizActive" && (
           <Questions
             theme={theme}
             dispatch={dispatch}
+            currentQuestionIndex={currentQuestionIndex}
             quizzes={quizzes}
             activeQuizData={activeQuizData}
             selectedQuizTitle={selectedQuizTitle}
