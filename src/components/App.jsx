@@ -22,6 +22,7 @@ import incorrectIcon from "../assets/images/icon-incorrect.svg";
 
 const initialState = {
   status: "loading",
+  questionStatus: "sortingQuestions",
   theme: "light",
   selectedQuizTitle: "",
   currentQuestionIndex: 0,
@@ -64,6 +65,12 @@ function reducer(state, action) {
         activeQuizData: [...action.payload],
       };
 
+    case "questionsReady":
+      return {
+        ...state,
+        questionStatus: "questionsSorted",
+      };
+
     case "setCurrentQuestionIndex":
       if (state.currentQuestionIndex > 9) return;
 
@@ -81,6 +88,7 @@ export default function App() {
   const [
     {
       status,
+      questionStatus,
       theme,
       currentQuestionIndex,
       quizzes,
@@ -127,7 +135,7 @@ export default function App() {
       />
 
       <Main>
-        {status === "loading" && <Loader />}
+        {status === "loading" && <Loader> fetching quiz data </Loader>}
 
         {status === "ready" && (
           <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
@@ -136,6 +144,7 @@ export default function App() {
         {status === "quizActive" && (
           <Questions
             theme={theme}
+            questionStatus={questionStatus}
             dispatch={dispatch}
             currentQuestionIndex={currentQuestionIndex}
             quizzes={quizzes}

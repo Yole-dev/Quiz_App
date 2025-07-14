@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import Loader from "./Loader";
 
 export default function Questions({
   theme,
+  questionStatus,
   dispatch,
   currentQuestionIndex,
   quizzes,
@@ -11,31 +13,43 @@ export default function Questions({
   useEffect(() => {
     const quizData = quizzes.find((quiz) => quiz.title === selectedQuizTitle);
     dispatch({ type: "settingActiveQuizData", payload: quizData.questions });
+
+    setTimeout(() => {
+      dispatch({ type: "questionsReady" });
+    }, 3000);
   }, [quizzes, selectedQuizTitle, dispatch]);
 
   const questionIndex = currentQuestionIndex + 1;
 
   return (
-    <div className="w-full flex flex-col items-center gap-[1rem] px-[1rem]">
-      <Pagination
-        theme={theme}
-        questionIndex={questionIndex}
-        activeQuizData={activeQuizData}
-      />
+    <>
+      {questionStatus === "sortingQuestions" && (
+        <Loader> sorting questions </Loader>
+      )}
 
-      <Question
-        activeQuizData={activeQuizData}
-        currentQuestionIndex={currentQuestionIndex}
-      />
+      {questionStatus === "questionsSorted" && (
+        <div className="w-full flex flex-col items-center gap-[1rem] px-[1rem]">
+          <Pagination
+            theme={theme}
+            questionIndex={questionIndex}
+            activeQuizData={activeQuizData}
+          />
 
-      <Options
-        activeQuizData={activeQuizData}
-        theme={theme}
-        currentQuestionIndex={currentQuestionIndex}
-      />
+          <Question
+            activeQuizData={activeQuizData}
+            currentQuestionIndex={currentQuestionIndex}
+          />
 
-      <Button questionIndex={questionIndex} dispatch={dispatch} />
-    </div>
+          <Options
+            activeQuizData={activeQuizData}
+            theme={theme}
+            currentQuestionIndex={currentQuestionIndex}
+          />
+
+          <Button questionIndex={questionIndex} dispatch={dispatch} />
+        </div>
+      )}
+    </>
   );
 }
 
