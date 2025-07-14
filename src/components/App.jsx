@@ -17,13 +17,14 @@ import darkPatternDesktop from "../assets/images/pattern-background-desktop-dark
 // imported icon images
 import correctIcon from "../assets/images/icon-correct.svg";
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
+import Questions from "./Questions";
 
 const initialState = {
   status: "ready",
   theme: "light",
   selectedQuizTitle: "",
   quizzes: [],
-  quizQuestions: [],
+  activeQuizData: [],
 };
 
 function reducer(state, action) {
@@ -51,6 +52,13 @@ function reducer(state, action) {
       return {
         ...state,
         selectedQuizTitle: action.payload,
+        status: `${action.payload}QuizActive`,
+      };
+
+    case "settingActiveQuizData":
+      return {
+        ...state,
+        activeQuizData: [...action.payload],
       };
 
     default:
@@ -60,7 +68,7 @@ function reducer(state, action) {
 
 export default function App() {
   const [
-    { status, theme, quizzes, selectedQuizTitle, quizQuestions },
+    { status, theme, quizzes, selectedQuizTitle, activeQuizData },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -88,7 +96,7 @@ export default function App() {
     <section
       className={`w-svw h-svh ${
         theme === "light "
-          ? "bg-white text-navy "
+          ? "bg-pure-white text-navy "
           : theme === "dark"
           ? "bg-light-navy text-white "
           : ""
@@ -103,6 +111,16 @@ export default function App() {
       <Main>
         {status === "ready" && (
           <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
+        )}
+
+        {status === "HTMLQuizActive" && (
+          <Questions
+            theme={theme}
+            dispatch={dispatch}
+            quizzes={quizzes}
+            activeQuizData={activeQuizData}
+            selectedQuizTitle={selectedQuizTitle}
+          />
         )}
       </Main>
     </section>
