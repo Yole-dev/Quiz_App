@@ -18,13 +18,16 @@ import darkPatternDesktop from "../assets/images/pattern-background-desktop-dark
 
 // imported icon images
 import correctIcon from "../assets/images/icon-correct.svg";
-import incorrectIcon from "../assets/images/icon-incorrect.svg";
 
 const initialState = {
   status: "loading",
   questionStatus: "sortingQuestions",
   theme: "light",
   selectedQuizTitle: "",
+  selectedOption: "",
+  answeredQuestions: 0,
+  answerPicked: false,
+  error: false,
   currentQuestionIndex: 0,
   quizzes: [],
   activeQuizData: [],
@@ -71,12 +74,28 @@ function reducer(state, action) {
         questionStatus: "questionsSorted",
       };
 
+    case "selectAnswer":
+      if (state.answerPicked === true)
+        return {
+          ...state,
+        };
+
+      return {
+        ...state,
+        answeredQuestions: state.answeredQuestions + action.payload,
+        answerPicked: true,
+        error: state.error === true ? false : state.error,
+      };
+
     case "setCurrentQuestionIndex":
+      if (state.answeredQuestions !== state.currentQuestionIndex + 1)
+        return { ...state, error: true };
       if (state.currentQuestionIndex > 9) return;
 
       return {
         ...state,
         currentQuestionIndex: state.currentQuestionIndex + action.payload,
+        answerPicked: false,
       };
 
     default:
@@ -94,6 +113,7 @@ export default function App() {
       quizzes,
       selectedQuizTitle,
       activeQuizData,
+      error,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -150,6 +170,7 @@ export default function App() {
             quizzes={quizzes}
             activeQuizData={activeQuizData}
             selectedQuizTitle={selectedQuizTitle}
+            error={error}
           />
         )}
       </Main>

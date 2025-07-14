@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import Loader from "./Loader";
 
+import incorrectIcon from "../assets/images/icon-incorrect.svg";
+
 export default function Questions({
   theme,
   questionStatus,
@@ -9,6 +11,7 @@ export default function Questions({
   quizzes,
   selectedQuizTitle,
   activeQuizData,
+  error,
 }) {
   useEffect(() => {
     const quizData = quizzes.find((quiz) => quiz.title === selectedQuizTitle);
@@ -48,10 +51,13 @@ export default function Questions({
           <Options
             activeQuizData={activeQuizData}
             theme={theme}
+            dispatch={dispatch}
             currentQuestionIndex={currentQuestionIndex}
           />
 
           <Button questionIndex={questionIndex} dispatch={dispatch} />
+
+          {error === true && <ErrorMessage />}
         </div>
       )}
     </>
@@ -81,7 +87,7 @@ function Progress({ activeQuizData, questionIndex }) {
         min={1}
         max={activeQuizData.length}
         value={questionIndex}
-        className="w-full shadow-lg shadow-light-navy/50 "
+        className="w-full h-[8px]"
       />
     </div>
   );
@@ -95,7 +101,7 @@ function Question({ activeQuizData, currentQuestionIndex }) {
   );
 }
 
-function Options({ activeQuizData, currentQuestionIndex, theme }) {
+function Options({ activeQuizData, currentQuestionIndex, theme, dispatch }) {
   const alphabets = [
     { id: 0, letter: "a" },
     { id: 1, letter: "b" },
@@ -114,10 +120,11 @@ function Options({ activeQuizData, currentQuestionIndex, theme }) {
               : theme === "dark"
               ? "bg-light-navy"
               : ""
-          } shadow-sm/50 shadow-light-navy/50 `}
+          } `}
+          onClick={() => dispatch({ type: "selectAnswer", payload: 1 })}
         >
           <div
-            className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white `}
+            className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white`}
           >
             {alphabets[i].letter}
           </div>
@@ -137,5 +144,15 @@ function Button({ dispatch, questionIndex }) {
     >
       {questionIndex > 9 ? "submit answer" : "next question"}
     </button>
+  );
+}
+
+function ErrorMessage() {
+  return (
+    <div className="w-full flex items-center justify-center font-[200] text-center text-[18px] text-red gap-1 ">
+      <img src={incorrectIcon} alt="wrong icon" className="w-[32px] h-[32px]" />
+
+      <p>Please select an answer</p>
+    </div>
   );
 }
