@@ -1,6 +1,9 @@
 // imported hooks
 import { useEffect, useReducer } from "react";
 
+// imported database
+import quizData from "../data/data.json";
+
 // imported components
 import Header from "./Header";
 import Main from "./Main";
@@ -90,7 +93,8 @@ function reducer(state, action) {
     case "setCurrentQuestionIndex":
       if (state.answeredQuestions !== state.currentQuestionIndex + 1)
         return { ...state, error: true };
-      if (state.currentQuestionIndex > 9) return;
+      if (state.currentQuestionIndex >= state.activeQuizData.length)
+        return { ...state };
 
       return {
         ...state,
@@ -119,32 +123,23 @@ export default function App() {
   ] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    async function fetchQuizData() {
-      try {
-        const response = await fetch("http://localhost:5000/quizzes");
-        const data = await response.json();
+    const quizzesData = quizData.quizzes;
 
-        console.log(data);
-
-        dispatch({
-          type: "quizDataReceived",
-          payload: data,
-        });
-      } catch (error) {
-        console.Error("An Error occured while fetching the Quiz data");
-      }
-    }
-
-    fetchQuizData();
+    setTimeout(() => {
+      dispatch({
+        type: "quizDataReceived",
+        payload: quizzesData,
+      });
+    }, 2000);
   }, []);
 
   return (
     <section
       className={`w-svw h-svh ${
-        theme === "light "
-          ? "bg-pure-white text-navy "
+        theme === "light"
+          ? "bg-pure-white text-navy"
           : theme === "dark"
-          ? "bg-light-navy text-white "
+          ? "bg-light-navy text-white"
           : ""
       } font-rubik `}
     >

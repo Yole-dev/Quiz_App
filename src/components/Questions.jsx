@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Loader from "./Loader";
 
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
@@ -102,6 +102,8 @@ function Question({ activeQuizData, currentQuestionIndex }) {
 }
 
 function Options({ activeQuizData, currentQuestionIndex, theme, dispatch }) {
+  const [optionClicked, setOptionClicked] = useState(false);
+
   const alphabets = [
     { id: 0, letter: "a" },
     { id: 1, letter: "b" },
@@ -120,11 +122,16 @@ function Options({ activeQuizData, currentQuestionIndex, theme, dispatch }) {
               : theme === "dark"
               ? "bg-light-navy"
               : ""
-          } `}
-          onClick={() => dispatch({ type: "selectAnswer", payload: 1 })}
+          } ${optionClicked === true && "border-[3px] border-purple"} `}
+          onClick={() => {
+            dispatch({ type: "selectAnswer", payload: 1 });
+            setOptionClicked(true);
+          }}
         >
           <div
-            className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white`}
+            className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white ${
+              optionClicked === true && "bg-purple text-white"
+            } `}
           >
             {alphabets[i].letter}
           </div>
