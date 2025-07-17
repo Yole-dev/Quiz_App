@@ -125,6 +125,8 @@ function reducer(state, action) {
       return {
         ...initialState,
         status: "ready",
+        theme: state.theme,
+        quizzes: state.quizzes,
       };
 
     default:
