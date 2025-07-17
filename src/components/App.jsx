@@ -121,6 +121,12 @@ function reducer(state, action) {
         selectedOptionIndex: null,
       };
 
+    case "displayResult":
+      return {
+        ...state,
+        status: action.payload,
+      };
+
     case "restartQuiz":
       return {
         ...initialState,
@@ -198,19 +204,21 @@ export default function App() {
             selectedOptionIndex={selectedOptionIndex}
             selectedQuizTitle={selectedQuizTitle}
             error={error}
-            correctAnswer={correctAnswer}
             answerPicked={answerPicked}
           />
         )}
 
-        {status === "quizFinished" && (
+        {status === "quizFinished" || status === "resultsReady" ? (
           <FinishScreen
+            status={status}
             dispatch={dispatch}
             theme={theme}
             activeQuizData={activeQuizData}
             numberOfCorrectAnswers={numberOfCorrectAnswers}
             selectedQuizTitle={selectedQuizTitle}
           />
+        ) : (
+          ""
         )}
       </Main>
     </section>

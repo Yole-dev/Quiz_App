@@ -15,7 +15,6 @@ export default function Questions({
   selectedQuizTitle,
   activeQuizData,
   error,
-  correctAnswer,
   answerPicked,
 }) {
   useEffect(() => {
@@ -59,7 +58,6 @@ export default function Questions({
             dispatch={dispatch}
             selectedOptionIndex={selectedOptionIndex}
             currentQuestionIndex={currentQuestionIndex}
-            correctAnswer={correctAnswer}
             answerPicked={answerPicked}
           />
 
@@ -119,7 +117,6 @@ function Options({
   selectedOptionIndex,
   theme,
   dispatch,
-  correctAnswer,
   answerPicked,
 }) {
   const [optionClicked, setOptionClicked] = useState(false);
