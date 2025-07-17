@@ -240,7 +240,7 @@ function Options({
 function Button({ dispatch, questionIndex, activeQuizData }) {
   return (
     <button
-      className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[1rem] cursor-pointer "
+      className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[12px] cursor-pointer "
       onClick={() => dispatch({ type: "setCurrentQuestionIndex", payload: 1 })}
     >
       {questionIndex > activeQuizData.length - 1

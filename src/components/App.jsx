@@ -10,6 +10,7 @@ import Main from "./Main";
 import StartScreen from "./StartScreen";
 import Questions from "./Questions";
 import Loader from "./Loader";
+import FinishScreen from "./FinishScreen";
 
 // imported background images
 import lightPatternMobile from "../assets/images/pattern-background-mobile-light.svg";
@@ -28,6 +29,7 @@ const initialState = {
   answeredQuestions: 0,
   answerPicked: false,
   correctAnswer: null,
+  numberOfCorrectAnswers: 0,
   error: false,
   currentQuestionIndex: 0,
   quizzes: [],
@@ -80,6 +82,7 @@ function reducer(state, action) {
         return {
           ...state,
         };
+
       return {
         ...state,
         answeredQuestions: state.answeredQuestions + action.payload,
@@ -91,6 +94,9 @@ function reducer(state, action) {
       return {
         ...state,
         correctAnswer: action.payload,
+        numberOfCorrectAnswers: action.payload
+          ? state.numberOfCorrectAnswers + 1
+          : state.numberOfCorrectAnswers,
       };
 
     case "setSelectedOptionIndex":
@@ -100,17 +106,25 @@ function reducer(state, action) {
       };
 
     case "setCurrentQuestionIndex":
-      if (state.answeredQuestions !== state.currentQuestionIndex + 1)
+      if (state.answeredQuestions !== state.currentQuestionIndex + 1) {
         return { ...state, error: true };
-      if (state.currentQuestionIndex >= state.activeQuizData.length)
-        return { ...state };
+      }
+      const nextIndex = state.currentQuestionIndex + action.payload;
+      const quizIsDone = nextIndex >= state.activeQuizData.length;
 
       return {
         ...state,
-        currentQuestionIndex: state.currentQuestionIndex + action.payload,
+        status: quizIsDone ? "quizFinished" : state.status,
+        currentQuestionIndex: nextIndex,
         answerPicked: false,
         correctAnswer: null,
         selectedOptionIndex: null,
+      };
+
+    case "restartQuiz":
+      return {
+        ...initialState,
+        status: "ready",
       };
 
     default:
@@ -131,6 +145,7 @@ export default function App() {
       activeQuizData,
       error,
       correctAnswer,
+      numberOfCorrectAnswers,
       answerPicked,
     },
     dispatch,
@@ -183,6 +198,16 @@ export default function App() {
             error={error}
             correctAnswer={correctAnswer}
             answerPicked={answerPicked}
+          />
+        )}
+
+        {status === "quizFinished" && (
+          <FinishScreen
+            dispatch={dispatch}
+            theme={theme}
+            activeQuizData={activeQuizData}
+            numberOfCorrectAnswers={numberOfCorrectAnswers}
+            selectedQuizTitle={selectedQuizTitle}
           />
         )}
       </Main>
