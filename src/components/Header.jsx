@@ -68,7 +68,7 @@ export default function Header({ dispatch, theme, selectedQuizTitle }) {
               : theme === "dark"
               ? "justify-end"
               : ""
-          } px-[0.3rem] bg-purple rounded-2xl transform-justify duration-100 ease-in cursor-pointer `}
+          } px-[0.3rem] bg-purple rounded-2xl transform-justify cursor-pointer `}
           onClick={() => dispatch({ type: "switchTheme" })}
         >
           <div className="w-[20px] h-[20px] bg-white rounded-full "></div>

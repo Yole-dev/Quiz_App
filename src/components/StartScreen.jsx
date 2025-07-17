@@ -42,14 +42,14 @@ export default function StartScreen({ dispatch, theme, quizzes }) {
       <ul className="w-full flex flex-col gap-[2rem]">
         {quizWithIcons.map((quiz) => (
           <button
-            className={`h-[64px] flex items-center gap-[1.5rem] font-[400] text-[18px] ${
+            className={`h-[64px] flex items-center gap-[1rem] font-[400] text-[18px] ${
               theme === "light"
                 ? "bg-white"
                 : theme === "dark"
                 ? "bg-light-navy"
                 : ""
             } px-[0.7rem] shadow-2xl/30 shadow-gray-navy/60 cursor-pointer rounded-[12px] `}
-            key={quiz.id}
+            key={quiz?.id}
             onClick={() =>
               dispatch({ type: "selectedQuiz", payload: quiz.title })
             }

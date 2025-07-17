@@ -19,17 +19,15 @@ import darkPatternTablet from "../assets/images/pattern-background-tablet-dark.s
 import lightPatternDesktop from "../assets/images/pattern-background-desktop-light.svg";
 import darkPatternDesktop from "../assets/images/pattern-background-desktop-dark.svg";
 
-// imported icon images
-import correctIcon from "../assets/images/icon-correct.svg";
-
 const initialState = {
   status: "loading",
   questionStatus: "sortingQuestions",
   theme: "light",
   selectedQuizTitle: "",
-  selectedOption: "",
+  selectedOptionIndex: null,
   answeredQuestions: 0,
   answerPicked: false,
+  correctAnswer: null,
   error: false,
   currentQuestionIndex: 0,
   quizzes: [],
@@ -82,12 +80,23 @@ function reducer(state, action) {
         return {
           ...state,
         };
-
       return {
         ...state,
         answeredQuestions: state.answeredQuestions + action.payload,
         answerPicked: true,
         error: state.error === true ? false : state.error,
+      };
+
+    case "setAnswerStatus":
+      return {
+        ...state,
+        correctAnswer: action.payload,
+      };
+
+    case "setSelectedOptionIndex":
+      return {
+        ...state,
+        selectedOptionIndex: action.payload,
       };
 
     case "setCurrentQuestionIndex":
@@ -100,6 +109,8 @@ function reducer(state, action) {
         ...state,
         currentQuestionIndex: state.currentQuestionIndex + action.payload,
         answerPicked: false,
+        correctAnswer: null,
+        selectedOptionIndex: null,
       };
 
     default:
@@ -115,9 +126,12 @@ export default function App() {
       theme,
       currentQuestionIndex,
       quizzes,
+      selectedOptionIndex,
       selectedQuizTitle,
       activeQuizData,
       error,
+      correctAnswer,
+      answerPicked,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -130,7 +144,7 @@ export default function App() {
         type: "quizDataReceived",
         payload: quizzesData,
       });
-    }, 2000);
+    }, 3000);
   }, []);
 
   return (
@@ -164,8 +178,11 @@ export default function App() {
             currentQuestionIndex={currentQuestionIndex}
             quizzes={quizzes}
             activeQuizData={activeQuizData}
+            selectedOptionIndex={selectedOptionIndex}
             selectedQuizTitle={selectedQuizTitle}
             error={error}
+            correctAnswer={correctAnswer}
+            answerPicked={answerPicked}
           />
         )}
       </Main>

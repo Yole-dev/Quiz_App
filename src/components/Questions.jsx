@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 
+// imported Icons
 import incorrectIcon from "../assets/images/icon-incorrect.svg";
+import correctIcon from "../assets/images/icon-correct.svg";
 
 export default function Questions({
   theme,
@@ -9,9 +11,12 @@ export default function Questions({
   dispatch,
   currentQuestionIndex,
   quizzes,
+  selectedOptionIndex,
   selectedQuizTitle,
   activeQuizData,
   error,
+  correctAnswer,
+  answerPicked,
 }) {
   useEffect(() => {
     const quizData = quizzes.find((quiz) => quiz.title === selectedQuizTitle);
@@ -52,10 +57,17 @@ export default function Questions({
             activeQuizData={activeQuizData}
             theme={theme}
             dispatch={dispatch}
+            selectedOptionIndex={selectedOptionIndex}
             currentQuestionIndex={currentQuestionIndex}
+            correctAnswer={correctAnswer}
+            answerPicked={answerPicked}
           />
 
-          <Button questionIndex={questionIndex} dispatch={dispatch} />
+          <Button
+            activeQuizData={activeQuizData}
+            questionIndex={questionIndex}
+            dispatch={dispatch}
+          />
 
           {error === true && <ErrorMessage />}
         </div>
@@ -101,7 +113,15 @@ function Question({ activeQuizData, currentQuestionIndex }) {
   );
 }
 
-function Options({ activeQuizData, currentQuestionIndex, theme, dispatch }) {
+function Options({
+  activeQuizData,
+  currentQuestionIndex,
+  selectedOptionIndex,
+  theme,
+  dispatch,
+  correctAnswer,
+  answerPicked,
+}) {
   const [optionClicked, setOptionClicked] = useState(false);
 
   const alphabets = [
@@ -111,45 +131,121 @@ function Options({ activeQuizData, currentQuestionIndex, theme, dispatch }) {
     { id: 3, letter: "d" },
   ];
 
+  const correctAnswerText = activeQuizData[currentQuestionIndex]?.answer;
+
   return (
     <div className="w-full flex flex-col items-center gap-[1rem] ">
-      {activeQuizData[currentQuestionIndex]?.options.map((option, i) => (
-        <button
-          key={i}
-          className={` w-[327px] h-[64px] flex items-center gap-[0.8rem] p-[12px] rounded-[12px] ${
-            theme === "light"
-              ? "bg-white"
-              : theme === "dark"
-              ? "bg-light-navy"
-              : ""
-          } ${optionClicked === true && "border-[3px] border-purple"} `}
-          onClick={() => {
-            dispatch({ type: "selectAnswer", payload: 1 });
-            setOptionClicked(true);
-          }}
-        >
-          <div
-            className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white ${
-              optionClicked === true && "bg-purple text-white"
-            } `}
-          >
-            {alphabets[i].letter}
-          </div>
+      {activeQuizData[currentQuestionIndex]?.options.map((option, i) => {
+        const isSelected = selectedOptionIndex === i;
+        const isCorrect = option === correctAnswerText;
+        const selectedIsCorrect =
+          activeQuizData[currentQuestionIndex]?.options[selectedOptionIndex] ===
+          correctAnswerText;
 
-          {option}
-        </button>
-      ))}
+        // Determine border color
+        let borderColor = "";
+        if (answerPicked) {
+          if (isSelected && selectedIsCorrect) {
+            borderColor = " border-[2px] border-green";
+          } else if (isSelected && !selectedIsCorrect) {
+            borderColor = " border-[2px] border-red";
+          }
+        } else if (isSelected) {
+          borderColor = "border-purple";
+        }
+
+        // Determine letter circle background
+        let circleColor = "";
+        if (answerPicked) {
+          if (isSelected && selectedIsCorrect) {
+            circleColor = "bg-green text-white";
+          } else if (isSelected && !selectedIsCorrect) {
+            circleColor = "bg-red text-white";
+          } else if (!isSelected && isCorrect && !selectedIsCorrect) {
+            circleColor = "bg-green text-white";
+          }
+        } else if (isSelected) {
+          circleColor = "bg-purple text-white";
+        }
+
+        return (
+          <button
+            key={i}
+            disabled={answerPicked}
+            className={` w-[327px] h-[64px] flex items-center justify-between gap-[0.8rem] p-[12px] rounded-[12px] ${
+              theme === "light"
+                ? "bg-white"
+                : theme === "dark"
+                ? "bg-light-navy"
+                : ""
+            } ${
+              answerPicked && !isSelected && !isCorrect ? "opacity-50" : ""
+            } text-left `}
+            onClick={() => {
+              const isCorrectSelection = option === correctAnswerText;
+
+              dispatch({ type: "selectAnswer", payload: 1 });
+              dispatch({ type: "setSelectedOptionIndex", payload: i });
+              dispatch({
+                type: "setAnswerStatus",
+                payload: isCorrectSelection,
+              });
+              setOptionClicked(true);
+            }}
+          >
+            <div className="flex items-center gap-[1rem]">
+              <div
+                className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white ${circleColor} `}
+              >
+                <p>{alphabets[i].letter}</p>
+              </div>
+
+              <p>{option}</p>
+            </div>
+
+            {answerPicked && (
+              <>
+                {isSelected && selectedIsCorrect && (
+                  <img
+                    src={correctIcon}
+                    alt="Correct"
+                    className="w-[32px] h-[32px]"
+                  />
+                )}
+
+                {isSelected && !selectedIsCorrect && (
+                  <img
+                    src={incorrectIcon}
+                    alt="Incorrect"
+                    className="w-[32px] h-[32px]"
+                  />
+                )}
+
+                {!isSelected && isCorrect && !selectedIsCorrect && (
+                  <img
+                    src={correctIcon}
+                    alt="Correct"
+                    className="w-[32px] h-[32px]"
+                  />
+                )}
+              </>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-function Button({ dispatch, questionIndex }) {
+function Button({ dispatch, questionIndex, activeQuizData }) {
   return (
     <button
       className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[1rem] cursor-pointer "
       onClick={() => dispatch({ type: "setCurrentQuestionIndex", payload: 1 })}
     >
-      {questionIndex > 9 ? "submit answer" : "next question"}
+      {questionIndex > activeQuizData.length - 1
+        ? "submit answer"
+        : "next question"}
     </button>
   );
 }
