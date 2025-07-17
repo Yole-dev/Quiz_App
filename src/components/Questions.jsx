@@ -144,24 +144,27 @@ function Options({
 
         // Determine border color
         let borderColor = "";
+
         if (answerPicked) {
-          if (isSelected && selectedIsCorrect) {
-            borderColor = " border-[2px] border-green";
-          } else if (isSelected && !selectedIsCorrect) {
-            borderColor = " border-[2px] border-red";
+          if (isSelected) {
+            borderColor = selectedIsCorrect
+              ? "border-2 border-green"
+              : "border-2 border-red";
+          } else if (isCorrect) {
+            borderColor = "border-2 border-green";
           }
         } else if (isSelected) {
-          borderColor = "border-purple";
+          borderColor = "border-2 border-purple";
         }
 
         // Determine letter circle background
-        let circleColor = "";
+        let circleColor = "bg-pure-white";
         if (answerPicked) {
-          if (isSelected && selectedIsCorrect) {
-            circleColor = "bg-green text-white";
-          } else if (isSelected && !selectedIsCorrect) {
-            circleColor = "bg-red text-white";
-          } else if (!isSelected && isCorrect && !selectedIsCorrect) {
+          if (isSelected) {
+            circleColor = selectedIsCorrect
+              ? "bg-green text-white"
+              : "bg-red text-white";
+          } else if (isCorrect) {
             circleColor = "bg-green text-white";
           }
         } else if (isSelected) {
@@ -178,9 +181,9 @@ function Options({
                 : theme === "dark"
                 ? "bg-light-navy"
                 : ""
-            } ${
+            } ${borderColor} ${
               answerPicked && !isSelected && !isCorrect ? "opacity-50" : ""
-            } text-left `}
+            } text-left transition-all duration-300 `}
             onClick={() => {
               const isCorrectSelection = option === correctAnswerText;
 
@@ -195,7 +198,7 @@ function Options({
           >
             <div className="flex items-center gap-[1rem]">
               <div
-                className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase bg-pure-white ${circleColor} `}
+                className={`w-[40px] h-[40px] flex items-center justify-center text-[18px] text-gray-navy rounded-[6px] uppercase ${circleColor} transition-all duration-300 `}
               >
                 <p>{alphabets[i].letter}</p>
               </div>
