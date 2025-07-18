@@ -176,7 +176,7 @@ export default function App() {
         theme === "light"
           ? "bg-pure-white text-navy"
           : theme === "dark"
-          ? "bg-light-navy text-white"
+          ? "bg-navy text-white"
           : ""
       } font-rubik `}
     >

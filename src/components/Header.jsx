@@ -59,6 +59,7 @@ export default function Header({ dispatch, theme, selectedQuizTitle }) {
               : ""
           }
           alt=""
+          className="md:w-[24px] md:h-[24px]"
         />
 
         <div
@@ -83,6 +84,7 @@ export default function Header({ dispatch, theme, selectedQuizTitle }) {
               : ""
           }
           alt=""
+          className="md:w-[24px] md:h-[24px]"
         />
       </div>
     </header>
