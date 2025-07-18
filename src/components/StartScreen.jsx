@@ -29,25 +29,27 @@ export default function StartScreen({ dispatch, theme, quizzes }) {
   }, [quizzes]);
 
   return (
-    <section className="w-full flex flex-col gap-[1rem] md:w-[640px] ">
-      <p className="font-[100] text-[40px] leading-[100%] md:text-[64px] ">
-        Welcome to the <br />
-        <span className="font-[500] capitalize ">frontend quiz!</span>
-      </p>
+    <section className="w-full flex flex-col gap-[2rem] md:w-[640px] lg:w-[1160px] lg:flex-row lg:justify-between ">
+      <div className="flex flex-col gap-[1rem]">
+        <p className="font-[100] text-[40px] leading-[100%] md:text-[64px] ">
+          Welcome to the <br />
+          <span className="font-[500] capitalize ">frontend quiz!</span>
+        </p>
 
-      <p
-        className={` italic text-[14px] ${
-          theme === "light"
-            ? "text-gray-navy"
-            : theme === "dark"
-            ? "text-light-bluish"
-            : ""
-        } mb-[2rem] leading-[150%] md:text-[20px] `}
-      >
-        Pick a subject to get started.
-      </p>
+        <p
+          className={` italic text-[14px] ${
+            theme === "light"
+              ? "text-gray-navy"
+              : theme === "dark"
+              ? "text-light-bluish"
+              : ""
+          } mb-[2rem] leading-[150%] md:text-[20px] `}
+        >
+          Pick a subject to get started.
+        </p>
+      </div>
 
-      <ul className="w-full flex flex-col gap-[2rem]">
+      <ul className="w-full flex flex-col gap-[1.2rem] lg:w-[564px]">
         {quizWithIcons.map((quiz) => (
           <button
             className={`h-[64px] flex items-center gap-[1rem] font-[400] text-[18px] ${

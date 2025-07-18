@@ -59,7 +59,7 @@ body {
 
 /* Progress bar for Chroome and Safari */
 progress::-webkit-progress-bar {
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 1rem;
 }
 

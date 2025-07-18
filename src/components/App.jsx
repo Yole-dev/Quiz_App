@@ -172,7 +172,7 @@ export default function App() {
 
   return (
     <section
-      className={`w-svw h-svh ${
+      className={`w-svw h-svh flex flex-col items-center ${
         theme === "light"
           ? "bg-pure-white text-navy"
           : theme === "dark"
