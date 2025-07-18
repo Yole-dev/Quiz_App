@@ -186,41 +186,43 @@ export default function App() {
         selectedQuizTitle={selectedQuizTitle}
       />
 
-      <Main>
-        {status === "loading" && <Loader> fetching quiz data </Loader>}
+      <div className="flex-grow flex items-center justify-center">
+        <Main>
+          {status === "loading" && <Loader> fetching quiz data </Loader>}
 
-        {status === "ready" && (
-          <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
-        )}
+          {status === "ready" && (
+            <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
+          )}
 
-        {status === "quizActive" && (
-          <Questions
-            theme={theme}
-            questionStatus={questionStatus}
-            dispatch={dispatch}
-            currentQuestionIndex={currentQuestionIndex}
-            quizzes={quizzes}
-            activeQuizData={activeQuizData}
-            selectedOptionIndex={selectedOptionIndex}
-            selectedQuizTitle={selectedQuizTitle}
-            error={error}
-            answerPicked={answerPicked}
-          />
-        )}
+          {status === "quizActive" && (
+            <Questions
+              theme={theme}
+              questionStatus={questionStatus}
+              dispatch={dispatch}
+              currentQuestionIndex={currentQuestionIndex}
+              quizzes={quizzes}
+              activeQuizData={activeQuizData}
+              selectedOptionIndex={selectedOptionIndex}
+              selectedQuizTitle={selectedQuizTitle}
+              error={error}
+              answerPicked={answerPicked}
+            />
+          )}
 
-        {status === "quizFinished" || status === "resultsReady" ? (
-          <FinishScreen
-            status={status}
-            dispatch={dispatch}
-            theme={theme}
-            activeQuizData={activeQuizData}
-            numberOfCorrectAnswers={numberOfCorrectAnswers}
-            selectedQuizTitle={selectedQuizTitle}
-          />
-        ) : (
-          ""
-        )}
-      </Main>
+          {status === "quizFinished" || status === "resultsReady" ? (
+            <FinishScreen
+              status={status}
+              dispatch={dispatch}
+              theme={theme}
+              activeQuizData={activeQuizData}
+              numberOfCorrectAnswers={numberOfCorrectAnswers}
+              selectedQuizTitle={selectedQuizTitle}
+            />
+          ) : (
+            ""
+          )}
+        </Main>
+      </div>
     </section>
   );
 }
