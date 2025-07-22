@@ -37,8 +37,6 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  console.log(state);
-
   switch (action.type) {
     case "quizDataReceived":
       return {
@@ -186,7 +184,7 @@ export default function App() {
         selectedQuizTitle={selectedQuizTitle}
       />
 
-      <div className="flex-grow flex items-center justify-center">
+      <div className="w-[90%] flex-grow flex items-center justify-center">
         <Main>
           {status === "loading" && <Loader> fetching quiz data </Loader>}
 
