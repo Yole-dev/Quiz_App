@@ -29,7 +29,7 @@ export default function StartScreen({ dispatch, theme, quizzes }) {
   }, [quizzes]);
 
   return (
-    <section className="w-full flex flex-col gap-[2rem] md:w-[640px] lg:w-[1160px] lg:flex-row lg:justify-between ">
+    <section className="w-full flex flex-col gap-[2rem] md:w-[640px] xl:w-[1160px] xl:flex-row xl:justify-between ">
       <div className="flex flex-col gap-[1rem]">
         <p className="font-[100] text-[40px] leading-[100%] md:text-[64px] ">
           Welcome to the <br />
@@ -49,7 +49,7 @@ export default function StartScreen({ dispatch, theme, quizzes }) {
         </p>
       </div>
 
-      <ul className="w-full flex flex-col gap-[1.2rem] lg:w-[564px]">
+      <ul className="w-full flex flex-col gap-[1.2rem] xl:w-[564px]">
         {quizWithIcons.map((quiz) => (
           <button
             className={`h-[64px] flex items-center gap-[1rem] font-[400] text-[18px] ${

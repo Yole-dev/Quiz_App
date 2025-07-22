@@ -35,8 +35,8 @@ export default function Questions({
       )}
 
       {questionStatus === "questionsSorted" && (
-        <div className="w-full flex flex-col items-center gap-[1.7rem] px-[1rem] md:w-[640px] md:gap-[4rem] md:px-0 lg:w-[1160px] lg:flex-row lg:items-start lg:justify-between lg:gap-0 ">
-          <div className="w-full flex flex-col gap-[1rem] md:gap-[2rem] lg:w-[465px] lg:h-[452px] ">
+        <div className="w-full flex flex-col items-center gap-[1.7rem] px-[1rem] md:w-[640px] md:gap-[4rem] md:px-0 xl:w-[1160px] xl:flex-row xl:items-start xl:justify-between xl:gap-0 ">
+          <div className="w-full flex flex-col gap-[1rem] md:gap-[2rem] xl:w-[465px] xl:h-[452px] ">
             <Pagination
               theme={theme}
               questionIndex={questionIndex}
@@ -55,7 +55,7 @@ export default function Questions({
             />
           </div>
 
-          <div className="w-full flex flex-col gap-[1rem] md:gap-[2rem] lg:w-[564px] lg:h-[564px] lg:items-end ">
+          <div className="w-full flex flex-col gap-[1rem] md:gap-[2rem] xl:w-[564px] xl:h-[564px] xl:items-end ">
             <Options
               activeQuizData={activeQuizData}
               theme={theme}
@@ -100,7 +100,7 @@ function Progress({ theme, activeQuizData, questionIndex }) {
     <div
       className={`w-full flex justify-center ${
         theme === "light" ? "bg-white" : theme === "dark" ? "bg-light-navy" : ""
-      } rounded-[1rem] lg:mt-auto `}
+      } rounded-[1rem] xl:mt-auto `}
     >
       <progress
         min={1}
@@ -140,7 +140,7 @@ function Options({
   const correctAnswerText = activeQuizData[currentQuestionIndex]?.answer;
 
   return (
-    <div className="w-full flex flex-col items-center gap-[1rem] md:w-[640px] lg:w-[564px] ">
+    <div className="w-full flex flex-col items-center gap-[1rem] md:w-[640px] xl:w-[564px] ">
       {activeQuizData[currentQuestionIndex]?.options.map((option, i) => {
         const isSelected = selectedOptionIndex === i;
         const isCorrect = option === correctAnswerText;
@@ -189,7 +189,7 @@ function Options({
                 : ""
             } ${borderColor} ${
               answerPicked && !isSelected && !isCorrect ? "opacity-50" : ""
-            } text-left transition-all duration-300 cursor-pointer md:w-[640px] md:h-[80px] md:font-[400] md:text-[28px] md:rounded-[24px] lg:w-[564px] lg:h-[92px] `}
+            } text-left transition-all duration-300 cursor-pointer md:w-[640px] md:h-[80px] md:font-[400] md:text-[28px] md:rounded-[24px] xl:w-[564px] xl:h-[92px] `}
             onClick={() => {
               const isCorrectSelection = option === correctAnswerText;
 
@@ -249,7 +249,7 @@ function Options({
 function Button({ dispatch, questionIndex, activeQuizData }) {
   return (
     <button
-      className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[12px] cursor-pointer md:w-[640px] md:h-[92px] md:text-[28px] md:rounded-[24px] lg:w-[564px] "
+      className="w-[327px] h-[56px] flex items-center justify-center bg-purple font-[400] text-[18px] text-pure-white leading-[100%] capitalize rounded-[12px] cursor-pointer md:w-[640px] md:h-[92px] md:text-[28px] md:rounded-[24px] xl:w-[564px] "
       onClick={() => dispatch({ type: "setCurrentQuestionIndex", payload: 1 })}
     >
       {questionIndex > activeQuizData.length - 1

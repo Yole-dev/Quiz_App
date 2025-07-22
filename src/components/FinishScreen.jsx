@@ -26,7 +26,7 @@ export default function FinishScreen({
       {status === "quizFinished" && <Loader>preparing your results</Loader>}
 
       {status === "resultsReady" && (
-        <div className=" w-full flex flex-col items-center gap-[2rem] md:w-[640px] md:gap-[4rem] lg:w-[1157px] lg:flex-row lg:justify-between lg:items-start lg:gap-0 ">
+        <div className=" w-full flex flex-col items-center gap-[2rem] md:w-[640px] md:gap-[4rem] xl:w-[1157px] xl:flex-row xl:justify-between xl:items-start xl:gap-0 ">
           <p className=" w-full flex flex-col font-[200] text-left text-[40px] leading-[100%] md:text-[64px] ">
             Quiz completed
             <span className="font-[500]">You scored... </span>

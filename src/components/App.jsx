@@ -179,7 +179,7 @@ export default function App() {
           : theme === "dark"
           ? "bg-navy text-white"
           : ""
-      } font-rubik `}
+      } font-rubik overflow-hidden `}
     >
       <div className=" relative z-10 w-svw h-svh flex flex-col items-center">
         <Header
@@ -241,7 +241,40 @@ export default function App() {
               : ""
           }
           alt="background pattern design"
-          className="absolute z-0 inset-0 top-0 w-full "
+          className="absolute z-0 inset-0 top-0"
+        />
+      )}
+
+      {(width === 540 ||
+        width === 768 ||
+        width === 820 ||
+        width === 853 ||
+        width === 912 ||
+        width === 1024) && (
+        <img
+          src={
+            theme === "light"
+              ? lightPatternTablet
+              : theme === "dark"
+              ? darkPatternTablet
+              : ""
+          }
+          alt="background pattern design"
+          className="absolute z-0 inset-0 top-0 "
+        />
+      )}
+
+      {width >= 1440 && (
+        <img
+          src={
+            theme === "light"
+              ? lightPatternDesktop
+              : theme === "dark"
+              ? darkPatternDesktop
+              : ""
+          }
+          alt="background pattern design"
+          className="absolute z-0 inset-0 top-0"
         />
       )}
     </section>

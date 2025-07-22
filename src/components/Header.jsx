@@ -11,7 +11,7 @@ import accessibilityIcon from "../assets/images/icon-accessibility.svg";
 
 export default function Header({ dispatch, theme, selectedQuizTitle }) {
   return (
-    <header className="w-full flex items-center justify-between px-[1rem] py-[2rem] md:w-[640px] md:px-0 md:py-[3rem] lg:w-[1160px] ">
+    <header className="w-full flex items-center justify-between px-[1rem] py-[2rem] md:w-[90%] md:px-0 md:py-[3rem] xl:w-[1160px] ">
       <div className="flex items-center gap-[0.8rem] md:gap-[1.3rem] ">
         {selectedQuizTitle !== "" && (
           <>
