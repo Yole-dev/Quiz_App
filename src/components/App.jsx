@@ -179,7 +179,7 @@ export default function App() {
           : theme === "dark"
           ? "bg-navy text-white"
           : ""
-      } font-rubik overflow-hidden `}
+      } font-rubik`}
     >
       <div className=" relative z-10 w-svw h-svh flex flex-col items-center">
         <Header
