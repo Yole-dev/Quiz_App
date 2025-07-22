@@ -1,5 +1,6 @@
 // imported hooks
 import { useEffect, useReducer } from "react";
+import { useScreenWidth } from "../hooks/useScreenWidth";
 
 // imported database
 import quizData from "../data/data.json";
@@ -139,6 +140,8 @@ function reducer(state, action) {
 }
 
 export default function App() {
+  const width = useScreenWidth();
+
   const [
     {
       status,
@@ -170,7 +173,7 @@ export default function App() {
 
   return (
     <section
-      className={`w-svw h-svh flex flex-col items-center ${
+      className={`relative w-full ${
         theme === "light"
           ? "bg-pure-white text-navy"
           : theme === "dark"
@@ -178,49 +181,69 @@ export default function App() {
           : ""
       } font-rubik `}
     >
-      <Header
-        dispatch={dispatch}
-        theme={theme}
-        selectedQuizTitle={selectedQuizTitle}
-      />
+      <div className=" relative z-10 w-svw h-svh flex flex-col items-center">
+        <Header
+          dispatch={dispatch}
+          theme={theme}
+          selectedQuizTitle={selectedQuizTitle}
+        />
 
-      <div className="w-[90%] flex-grow flex items-center justify-center">
-        <Main>
-          {status === "loading" && <Loader> fetching quiz data </Loader>}
+        <div className="w-[90%] flex-grow flex justify-center pt-[2rem] md:items-center md:justify-center md:pt-0 ">
+          <Main>
+            {status === "loading" && <Loader> fetching quiz data </Loader>}
 
-          {status === "ready" && (
-            <StartScreen dispatch={dispatch} theme={theme} quizzes={quizzes} />
-          )}
+            {status === "ready" && (
+              <StartScreen
+                dispatch={dispatch}
+                theme={theme}
+                quizzes={quizzes}
+              />
+            )}
 
-          {status === "quizActive" && (
-            <Questions
-              theme={theme}
-              questionStatus={questionStatus}
-              dispatch={dispatch}
-              currentQuestionIndex={currentQuestionIndex}
-              quizzes={quizzes}
-              activeQuizData={activeQuizData}
-              selectedOptionIndex={selectedOptionIndex}
-              selectedQuizTitle={selectedQuizTitle}
-              error={error}
-              answerPicked={answerPicked}
-            />
-          )}
+            {status === "quizActive" && (
+              <Questions
+                theme={theme}
+                questionStatus={questionStatus}
+                dispatch={dispatch}
+                currentQuestionIndex={currentQuestionIndex}
+                quizzes={quizzes}
+                activeQuizData={activeQuizData}
+                selectedOptionIndex={selectedOptionIndex}
+                selectedQuizTitle={selectedQuizTitle}
+                error={error}
+                answerPicked={answerPicked}
+              />
+            )}
 
-          {status === "quizFinished" || status === "resultsReady" ? (
-            <FinishScreen
-              status={status}
-              dispatch={dispatch}
-              theme={theme}
-              activeQuizData={activeQuizData}
-              numberOfCorrectAnswers={numberOfCorrectAnswers}
-              selectedQuizTitle={selectedQuizTitle}
-            />
-          ) : (
-            ""
-          )}
-        </Main>
+            {status === "quizFinished" || status === "resultsReady" ? (
+              <FinishScreen
+                status={status}
+                dispatch={dispatch}
+                theme={theme}
+                activeQuizData={activeQuizData}
+                numberOfCorrectAnswers={numberOfCorrectAnswers}
+                selectedQuizTitle={selectedQuizTitle}
+              />
+            ) : (
+              ""
+            )}
+          </Main>
+        </div>
       </div>
+
+      {width <= 420 && (
+        <img
+          src={
+            theme === "light"
+              ? lightPatternMobile
+              : theme === "dark"
+              ? darkPatternMobile
+              : ""
+          }
+          alt="background pattern design"
+          className="absolute z-0 inset-0 top-0 w-full "
+        />
+      )}
     </section>
   );
 }
